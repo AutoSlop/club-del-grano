@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   brand: string;
   origin: string;
+  departamento: string;
   process: string;
   roast: string;
   notes: string[];
@@ -43,6 +44,7 @@ export const products: Product[] = [
     name: "Geisha Lavado Finca El Paraíso",
     brand: "Café Ancestral",
     origin: "Huila, Colombia",
+    departamento: "huila",
     process: "Lavado",
     roast: "Medio",
     notes: ["Jazmín", "Bergamota", "Miel"],
@@ -56,6 +58,7 @@ export const products: Product[] = [
     name: "Caturra Natural Sierra Nevada",
     brand: "Tostadora Cumbre",
     origin: "Sierra Nevada, Colombia",
+    departamento: "magdalena",
     process: "Natural",
     roast: "Medio-Oscuro",
     notes: ["Frutos rojos", "Chocolate", "Panela"],
@@ -69,6 +72,7 @@ export const products: Product[] = [
     name: "Castillo Honey Planadas",
     brand: "Raíces del Café",
     origin: "Tolima, Colombia",
+    departamento: "tolima",
     process: "Honey",
     roast: "Claro",
     notes: ["Durazno", "Caramelo", "Cítricos"],
@@ -82,6 +86,7 @@ export const products: Product[] = [
     name: "Tabi Anaeróbico Buesaco",
     brand: "Montaña Negra",
     origin: "Nariño, Colombia",
+    departamento: "narino",
     process: "Anaeróbico",
     roast: "Medio",
     notes: ["Fresa", "Vino tinto", "Especias"],
@@ -95,6 +100,7 @@ export const products: Product[] = [
     name: "Bourbon Rosado Pijao",
     brand: "Café Ancestral",
     origin: "Quindío, Colombia",
+    departamento: "quindio",
     process: "Lavado",
     roast: "Claro",
     notes: ["Rosa", "Limón", "Té verde"],
@@ -108,6 +114,7 @@ export const products: Product[] = [
     name: "Colombia Supremo Clásico",
     brand: "Tostadora Cumbre",
     origin: "Antioquia, Colombia",
+    departamento: "antioquia",
     process: "Lavado",
     roast: "Oscuro",
     notes: ["Nuez", "Cacao", "Caramelo oscuro"],
@@ -198,6 +205,47 @@ export const reviews: Review[] = [
     date: "3 abr 2026",
     verified: true,
   },
+];
+
+export interface Departamento {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export const departamentos: Departamento[] = [
+  { slug: "amazonas", name: "Amazonas", description: "Café de la selva amazónica" },
+  { slug: "antioquia", name: "Antioquia", description: "Tradición cafetera paisa" },
+  { slug: "arauca", name: "Arauca", description: "Café de los llanos orientales" },
+  { slug: "atlantico", name: "Atlántico", description: "Costa caribe colombiana" },
+  { slug: "bolivar", name: "Bolívar", description: "Sabores del Caribe" },
+  { slug: "boyaca", name: "Boyacá", description: "Café de tierras altas andinas" },
+  { slug: "caldas", name: "Caldas", description: "Corazón del Eje Cafetero" },
+  { slug: "caqueta", name: "Caquetá", description: "Café del piedemonte amazónico" },
+  { slug: "casanare", name: "Casanare", description: "Café llanero emergente" },
+  { slug: "cauca", name: "Cauca", description: "Microlotes de alta montaña" },
+  { slug: "cesar", name: "Cesar", description: "Café de la Sierra del Perijá" },
+  { slug: "choco", name: "Chocó", description: "Café del Pacífico colombiano" },
+  { slug: "cordoba", name: "Córdoba", description: "Café del Sinú" },
+  { slug: "cundinamarca", name: "Cundinamarca", description: "Café de la sabana" },
+  { slug: "guainia", name: "Guainía", description: "Café amazónico" },
+  { slug: "guaviare", name: "Guaviare", description: "Café de transición amazónica" },
+  { slug: "huila", name: "Huila", description: "Cuna del café de especialidad colombiano" },
+  { slug: "la-guajira", name: "La Guajira", description: "Café del extremo norte" },
+  { slug: "magdalena", name: "Magdalena", description: "Café de la Sierra Nevada" },
+  { slug: "meta", name: "Meta", description: "Café del piedemonte llanero" },
+  { slug: "narino", name: "Nariño", description: "Café volcánico de alta altitud" },
+  { slug: "norte-de-santander", name: "Norte de Santander", description: "Café de frontera andina" },
+  { slug: "putumayo", name: "Putumayo", description: "Café del sur amazónico" },
+  { slug: "quindio", name: "Quindío", description: "Emblema del Eje Cafetero" },
+  { slug: "risaralda", name: "Risaralda", description: "Eje Cafetero con identidad propia" },
+  { slug: "san-andres", name: "San Andrés y Providencia", description: "Islas del Caribe" },
+  { slug: "santander", name: "Santander", description: "Café de montaña santandereana" },
+  { slug: "sucre", name: "Sucre", description: "Café caribeño emergente" },
+  { slug: "tolima", name: "Tolima", description: "Cafés honey y experimentales" },
+  { slug: "valle-del-cauca", name: "Valle del Cauca", description: "Diversidad de perfiles" },
+  { slug: "vaupes", name: "Vaupés", description: "Café selvático" },
+  { slug: "vichada", name: "Vichada", description: "Café de los llanos orientales" },
 ];
 
 export const faqs: FAQ[] = [

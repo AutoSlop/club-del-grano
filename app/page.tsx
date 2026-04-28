@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { products, brands, reviews, faqs } from "./data";
+import { useRouter } from "next/navigation";
+import { products, brands, reviews, faqs, departamentos } from "./data";
+import ColombiaMap from "./colombia-map";
 
 /* ─── Helpers ─── */
 function formatCOP(value: number) {
@@ -36,6 +38,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-foreground/80">
           <a href="#como-funciona" className="hover:text-brown transition-colors">Cómo funciona</a>
           <a href="#catalogo" className="hover:text-brown transition-colors">Catálogo</a>
+          <a href="#origen" className="hover:text-brown transition-colors">Origen</a>
           <a href="#vendedores" className="hover:text-brown transition-colors">Vendedores</a>
           <a href="#comunidad" className="hover:text-brown transition-colors">Comunidad</a>
           <a href="#pricing" className="hover:text-brown transition-colors">Precios</a>
@@ -69,6 +72,7 @@ function Navbar() {
           {[
             ["#como-funciona", "Cómo funciona"],
             ["#catalogo", "Catálogo"],
+            ["#origen", "Origen"],
             ["#vendedores", "Vendedores"],
             ["#comunidad", "Comunidad"],
             ["#pricing", "Precios"],
@@ -279,6 +283,107 @@ function BrandProfiles() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Explora por departamento ─── */
+function ExploraDepartamento() {
+  const router = useRouter();
+  const [selectedDept, setSelectedDept] = useState("");
+
+  const activeSlugs = [...new Set(products.map((p) => p.departamento))];
+
+  const productCountByDept = products.reduce<Record<string, number>>((acc, p) => {
+    acc[p.departamento] = (acc[p.departamento] || 0) + 1;
+    return acc;
+  }, {});
+
+  function handleSelect(slug: string) {
+    router.push(`/origen/${slug}`);
+  }
+
+  function handleMobileSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+    const slug = e.target.value;
+    if (slug) {
+      setSelectedDept(slug);
+      router.push(`/origen/${slug}`);
+    }
+  }
+
+  return (
+    <section id="origen" className="py-20 sm:py-24 bg-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-14">
+          <span className="text-sm font-semibold uppercase tracking-wider text-gold">Origen</span>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-foreground">Explora por departamento</h2>
+          <p className="mt-3 text-foreground/60 max-w-xl mx-auto">
+            Colombia es un país de regiones cafeteras únicas. Haz clic en un departamento para descubrir sus cafés.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          {/* Map */}
+          <div className="flex justify-center">
+            <ColombiaMap onSelect={handleSelect} activeSlugs={activeSlugs} />
+          </div>
+
+          {/* Department list + mobile select */}
+          <div>
+            {/* Mobile select */}
+            <div className="mb-6 lg:hidden">
+              <label htmlFor="dept-select" className="block text-sm font-medium text-foreground/70 mb-2">
+                Selecciona un departamento:
+              </label>
+              <select
+                id="dept-select"
+                value={selectedDept}
+                onChange={handleMobileSelect}
+                className="w-full rounded-xl border border-brown/20 bg-cream px-4 py-3 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+              >
+                <option value="">— Elige un departamento —</option>
+                {departamentos.map((d) => (
+                  <option key={d.slug} value={d.slug}>
+                    {d.name} {productCountByDept[d.slug] ? `(${productCountByDept[d.slug]} café${productCountByDept[d.slug] > 1 ? "s" : ""})` : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Department grid for desktop */}
+            <h3 className="font-semibold text-lg text-foreground mb-4 hidden lg:block">Departamentos cafeteros</h3>
+            <div className="hidden lg:grid grid-cols-2 gap-2">
+              {departamentos
+                .filter((d) => activeSlugs.includes(d.slug))
+                .map((d) => (
+                  <a
+                    key={d.slug}
+                    href={`/origen/${d.slug}`}
+                    className="flex items-center justify-between rounded-xl bg-cream px-4 py-3 hover:bg-gold/10 transition-colors group"
+                  >
+                    <div>
+                      <span className="font-medium text-sm text-foreground group-hover:text-brown transition-colors">
+                        {d.name}
+                      </span>
+                      <span className="block text-xs text-foreground/50">{d.description}</span>
+                    </div>
+                    <span className="text-xs font-semibold text-gold bg-gold/10 rounded-full px-2 py-0.5">
+                      {productCountByDept[d.slug] || 0}
+                    </span>
+                  </a>
+                ))}
+            </div>
+
+            {/* CTA to see all */}
+            <div className="mt-6 hidden lg:block">
+              <p className="text-sm text-foreground/50">
+                ¿No ves tu departamento? Estamos creciendo constantemente. Explora todo el{" "}
+                <a href="#catalogo" className="text-brown font-medium hover:underline">catálogo completo</a>.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -619,6 +724,7 @@ export default function Home() {
         <HowItWorks />
         <Catalog />
         <BrandProfiles />
+        <ExploraDepartamento />
         <SellerBenefits />
         <Community />
         <Pricing />
